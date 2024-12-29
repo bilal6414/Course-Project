@@ -3,6 +3,9 @@
 This project predicts house rent prices in India based on various features like location, furnishing status, size, and more. It includes data preprocessing, model training, and deployment as a Flask-based web application.
 
 ---
+### Presentation Video Link
+```https://drive.google.com/file/d/1LD9UCErU09bffPcfJE0qwlXO2XSbKNpa/view?usp=sharing```
+---
 ![1](https://github.com/user-attachments/assets/3a060891-90a0-4ffc-93f8-c0b327ec4659)
 
 ![2](https://github.com/user-attachments/assets/b881db7d-e254-4bdf-8310-9f279f37d598)
