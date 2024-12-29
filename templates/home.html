@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Rental Price Estimator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .loader {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">AI Rental Estimator</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h2 class="text-center">Estimate House Rental Price</h2>
+        <form id="rentalForm">
+            <div class="row">
+                <!-- Categorical dropdowns -->
+                <div class="col-md-6">
+                    <label for="house_type" class="form-label">House Type</label>
+                    <select class="form-select" id="house_type" name="house_type">
+                        {% for option in house_type_options %}
+                        <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="location" class="form-label">Location</label>
+                    <select class="form-select" id="location" name="location">
+                        {% for option in location_options %}
+                        <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="Status" class="form-label">Status</label>
+                    <select class="form-select" id="Status" name="Status">
+                        {% for option in status_options %}
+                        <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="verificationDate" class="form-label">Verification Date (Days)</label>
+                    <select class="form-select" id="verificationDate" name="verificationDate">
+                        {% for option in verification_date_options %}
+                        <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <!-- Numerical inputs -->
+                <div class="col-md-6">
+                    <label for="numBathrooms" class="form-label">Number of Bathrooms</label>
+                    <input type="number" class="form-control" id="numBathrooms" name="numBathrooms" min="1" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="SecurityDeposit" class="form-label">Security Deposit</label>
+                    <input type="number" class="form-control" id="SecurityDeposit" name="SecurityDeposit" min="0" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="bhk" class="form-label">BHK</label>
+                    <select class="form-select" id="bhk" name="bhk">
+                        {% for option in bhk_options %}
+                        <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="house_size_sqft" class="form-label">House Size (sqft)</label>
+                    <input type="number" class="form-control" id="house_size_sqft" name="house_size_sqft" min="1" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Estimate Price</button>
+        </form>
+        <div class="loader">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p>Loading...</p>
+        </div>
+        <div class="result">
+            <h3 id="result"></h3>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('rentalForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.querySelector('.loader').style.display = 'block';
+            document.querySelector('.result').style.display = 'none';
+
+            const formData = new FormData(event.target);
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('.loader').style.display = 'none';
+                document.querySelector('.result').style.display = 'block';
+                document.getElementById('result').textContent = `Estimated Rent: ₹${data.estimated_price.toFixed(2)}`;
+            });
+        });
+    </script>
+</body>
+</html>
