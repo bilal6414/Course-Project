@@ -107,6 +107,10 @@ python app.py
 ### Access the Application
 Open your browser and navigate to ```http://127.0.0.1:5000.```
 
+![1](https://github.com/user-attachments/assets/3a060891-90a0-4ffc-93f8-c0b327ec4659)
+
+![2](https://github.com/user-attachments/assets/b881db7d-e254-4bdf-8310-9f279f37d598)
+
 ---
 ### Results
 The best-performing model achieved the following metrics:
